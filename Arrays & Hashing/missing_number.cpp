@@ -1,5 +1,5 @@
-# Missing number
-# https://leetcode.com/problems/missing-number/
+// Missing number
+// https://leetcode.com/problems/missing-number/
 
 class Solution {
 public:
