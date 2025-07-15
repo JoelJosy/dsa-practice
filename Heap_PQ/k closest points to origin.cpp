@@ -26,3 +26,28 @@ public:
         return res;
     }
 };
+
+
+// Simpler
+class Solution {
+public:
+    vector<vector<int>> kClosest(vector<vector<int>>& points, int k) {
+        priority_queue<vector<int>> heap;
+        vector<vector<int>> res;
+        for (auto& point : points) {
+            int x = point[0], y = point[1];
+            heap.push({x*x + y*y, x, y});
+            if (heap.size() > k) {
+                heap.pop();
+            }
+        }
+
+        while (!heap.empty()) {
+            vector<int> top = heap.top();
+            res.push_back({top[1], top[2]});
+            heap.pop();
+        }
+
+        return res;
+    }
+};
