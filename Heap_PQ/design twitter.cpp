@@ -17,42 +17,39 @@ public:
         tweetMap[userId].push_back({time++, tweetId});
     }
     
+    struct TweetInfo {
+        int time;
+        int tweetId;
+        int userId;
+        int idx; // Index in tweetMap[userId]
+    };
+
+    struct Compare {
+        bool operator()(const TweetInfo& a, const TweetInfo& b) const {
+            return a.time < b.time;  // Max-heap: larger time first
+        }
+    };
+
     vector<int> getNewsFeed(int userId) {
         vector<int> res;
 
-        // Define struct for heap clarity
-        struct TweetInfo {
-            int time;
-            int tweetId;
-            int userId;
-            int idx; // Index in tweetMap[userId]
+        priority_queue<TweetInfo, vector<TweetInfo>, Compare> heap;
 
-            bool operator<(const TweetInfo& other) const {
-                return time < other.time;  // Max-heap (most recent first)
-            }
-        };
-
-        priority_queue<TweetInfo> heap;
-
-        // Include self in followees
         unordered_set<int> followees = followMap[userId];
         followees.insert(userId);
 
-        // Initialize heap with the most recent tweet of each user
         for (int followee : followees) {
             auto& tweets = tweetMap[followee];
             if (!tweets.empty()) {
-                int idx = tweets.size() - 1;  // Most recent tweet is at the back
+                int idx = tweets.size() - 1;
                 heap.push({tweets[idx].first, tweets[idx].second, followee, idx});
             }
         }
 
-        // Get the top 10 tweets using the heap
         while (!heap.empty() && res.size() < 10) {
             TweetInfo top = heap.top(); heap.pop();
             res.push_back(top.tweetId);
 
-            // If the user has more tweets, push the next recent tweet into the heap
             if (top.idx > 0) {
                 int nextIdx = top.idx - 1;
                 auto& tweets = tweetMap[top.userId];
