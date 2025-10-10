@@ -6,7 +6,7 @@ public:
     vector<int> memo;
     int rob(vector<int>& nums) {
         memo.resize(nums.size(), -1);
-        dfs(nums, 0);
+        return dfs(nums, 0);
     }
 
     int dfs(vector<int>& nums, int i) {
