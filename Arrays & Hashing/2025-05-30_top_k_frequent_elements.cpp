@@ -57,3 +57,29 @@ public:
 
     }
 };
+
+// Bucket Sort
+// O(n)
+
+#include <bits/stdc++.h>
+using namespace std;
+
+vector<int> topKFrequent(vector<int>& nums, int k) {
+    unordered_map<int, int> freq;
+    for (int x : nums) freq[x]++;
+
+    // bucket[i] = all numbers that appear i times
+    vector<vector<int>> bucket(nums.size() + 1);
+    for (auto &p : freq) {
+        bucket[p.second].push_back(p.first);
+    }
+
+    vector<int> ans;
+    for (int i = nums.size(); i >= 1 && (int)ans.size() < k; i--) {
+        for (int x : bucket[i]) {
+            ans.push_back(x);
+            if ((int)ans.size() == k) break;
+        }
+    }
+    return ans;
+}
