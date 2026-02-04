@@ -11,6 +11,8 @@ public:
         
         int lo = 0, hi = n1;
         int half = (n1 + n2 + 1) / 2;
+        // A: [ ... l1 | r1 ... ]
+        // B: [ ... l2 | r2 ... ]
         
         while (lo <= hi) {
             int mid1 = lo + (hi - lo) / 2;
@@ -37,3 +39,6 @@ public:
         return -1.0; 
     }
 };
+
+
+// Two Pointers Code
