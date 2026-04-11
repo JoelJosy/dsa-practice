@@ -12,7 +12,7 @@ public:
         while (l <= r) {
             long long mid = l + (r-l)/2;
 
-            // check if all laptops can run for mid minutes
+            // max time for all laptops without exceeding mid minutes
             long long maxPossible = 0;
             for (int i = 0; i < batteries.size(); i++) {
                 maxPossible += min((long long) batteries[i], mid);
