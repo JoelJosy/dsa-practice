@@ -1,6 +1,59 @@
 // 417. Pacific Atlantic Water Flow
 // https://leetcode.com/problems/pacific-atlantic-water-flow/
 
+
+class Solution {
+public:
+    void dfs(vector<vector<int>>& heights, int r, int c, vector<vector<int>>& visited) {
+        if (r<0 || c<0 || r>=heights.size() || c>=heights[0].size() || visited[r][c] == 1) {
+            return;
+        }
+        visited[r][c] = 1;
+        if (r+1 < heights.size() && heights[r][c] <= heights[r+1][c]) {
+            dfs(heights, r+1, c, visited);
+        }
+        if (c+1 < heights[0].size() && heights[r][c] <= heights[r][c+1]) {
+            dfs(heights, r, c+1, visited);
+        }
+        if (r-1 >=0 && heights[r][c] <= heights[r-1][c]) {
+            dfs(heights, r-1, c, visited);
+        }
+        if (c-1 >=0 && heights[r][c] <= heights[r][c-1]) {
+            dfs(heights, r, c-1, visited);
+        }
+    }
+
+    vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {
+        int m = heights.size();
+        int n = heights[0].size();
+        vector<vector<int>> pacific(m, vector<int>(n, 0)); 
+        vector<vector<int>> atlantic(m, vector<int>(n, 0));
+
+        // go row wise
+        for (int i = 0; i < m; i++) {
+            dfs(heights, i, 0, pacific);
+            dfs(heights, i, n-1, atlantic);
+        }
+        // go col wise
+        for (int j = 0; j < n; j++) {
+            dfs(heights, 0, j, pacific);
+            dfs(heights, m-1, j, atlantic);
+        }
+
+        vector<vector<int>> res;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (pacific[i][j] && atlantic[i][j]) {
+                    res.push_back({i, j});
+                }
+            }
+        }
+        return res;
+    }
+};
+
+
+
 class Solution {
 public:
     void dfs(int r, int c, set<pair<int,int>>& ocean, int prevHeight, vector<vector<int>>& heights) {
