@@ -52,3 +52,42 @@ public:
 
 
 // Max Heap
+class Solution {
+public:
+    int leastInterval(vector<char>& tasks, int n) {
+        unordered_map<char, int> freq;
+        for (char c: tasks) {
+            freq[c]++;
+        }
+
+        priority_queue<int> pq;
+        for (auto [c, f]: freq) {
+            pq.push(f);
+        }
+
+        int res = 0;
+
+        while (!pq.empty()) {
+            vector<int> remaining;
+            int cycle = n+1;
+
+            while (cycle && !pq.empty()) {
+                int max_freq = pq.top();
+                pq.pop();
+                res++;
+                if (max_freq-1 > 0) {
+                    remaining.push_back(max_freq-1);
+                }
+                cycle--;
+            }
+
+            for (int f: remaining) {
+                pq.push(f);
+            }
+            if (pq.empty()) break;
+            res += cycle;
+        }
+
+        return res;
+    }
+};
