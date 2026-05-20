@@ -20,22 +20,20 @@ public:
     }
 };
 
-
+// Space optimized
 class Solution {
 public:
-    vector<int> memo;
     int rob(vector<int>& nums) {
-        memo.resize(nums.size(), -1);
-        return dfs(nums, 0);
-    }
+        int prev2 = 0; // dp[i-2]
+        int prev1 = 0; // dp[i-1]
 
-    int dfs(vector<int>& nums, int i) {
-        if (i >= nums.size()) return 0;
-        if (memo[i] != -1) {
-            return memo[i];
+        for (int num : nums) {
+            int curr = max(prev1, num + prev2);
+
+            prev2 = prev1;
+            prev1 = curr;
         }
 
-        memo[i] = max(dfs(nums, i+1), nums[i] + dfs(nums, i+2));
-        return memo[i];
+        return prev1;
     }
 };
