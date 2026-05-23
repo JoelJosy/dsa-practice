@@ -1,6 +1,25 @@
 // 300. Longest Increasing Subsequence
 // https://leetcode.com/problems/longest-increasing-subsequence/
 
+// Optimal Son: Binsearch
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        vector<int> tails;
+        for (int num: nums) {
+            auto it = lower_bound(tails.begin(), tails.end(), num);
+            if (it == tails.end()) {
+                tails.push_back(num);
+            } else {
+                *it = num;
+            }
+        }
+
+        return tails.size();
+    }
+};
+// O(nlogn) 
+
 // Memoization
 class Solution {
 public:
@@ -29,6 +48,7 @@ public:
         return dfs(nums, 0, -1, memo);
     }
 };
+// O(n^2)
 
 // Tabulation
 class Solution {
@@ -56,6 +76,7 @@ public:
         return dp[0][0];
     }
 };
+// O(n^2)
 
 class Solution {
 public:
