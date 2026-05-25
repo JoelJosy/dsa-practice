@@ -44,7 +44,7 @@ public:
     }
 
     int lengthOfLIS(vector<int>& nums) {
-        vector<vector<int>> memo(nums.size(), vector<int>(nums.size(), -1)); 
+        vector<vector<int>> memo(nums.size(), vector<int>(nums.size()+1, -1)); 
         return dfs(nums, 0, -1, memo);
     }
 };
@@ -87,6 +87,7 @@ public:
         for (int i = n-1; i >= 0; i--) {
             for (int j = i; j < n; j++) {
                 if (nums[i] < nums[j]) {
+                    //         skip j, take j
                     dp[i] = max(dp[i], 1+dp[j]);
                 }
             }
