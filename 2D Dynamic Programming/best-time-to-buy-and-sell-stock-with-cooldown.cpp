@@ -32,6 +32,11 @@ public:
 };
 
 // Tabulation
+
+// dp[i][0] :
+// Maximum profit starting from day i when you are NOT holding a stock
+// dp[i][1] :
+// Maximum profit starting from day i when you are holding a stock
 class Solution {
 public:
     int maxProfit(vector<int>& prices) {
