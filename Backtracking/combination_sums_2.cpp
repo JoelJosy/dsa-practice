@@ -1,3 +1,9 @@
+// Time: O(2^N)
+// Space: O(N)
+// N = number of candidates
+
+
+
 class Solution {
 public:
     void backtrack(vector<int>& candidates, int target, int start, vector<vector<int>>& res, vector<int>& subset) {
@@ -26,3 +32,4 @@ public:
         return res;
     }
 };
+
