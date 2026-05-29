@@ -1,6 +1,7 @@
 // Time: O(C+V+E) C - total num of chars across all words N*L
 // Space: O(V+E) graph and visited storage and recursion is O(V)
 
+// DFS
 class Solution {
 public:
     // ["hrn","hrf","er","enn","rfnn"]
@@ -67,6 +68,72 @@ public:
         }
 
         reverse(res.begin(), res.end());
+        return res;
+    }
+};
+
+
+// BFS
+class Solution {
+public:
+    string foreignDictionary(vector<string>& words) {
+        int n = words.size();
+        unordered_map<char, unordered_set<char>> graph;
+        unordered_map<char, int> indegree;
+
+        for (string& word : words) {
+            // ensures char exists
+            for (char c : word) {
+                graph[c]; 
+                indegree[c] = 0;
+            }
+        }
+
+        // build graph
+        for (int i = 0; i < n-1; i++) {
+            string w1 = words[i];
+            string w2 = words[i+1];
+
+            if (w1.size() > w2.size() && w1.starts_with(w2)) 
+                return "";
+            
+            int minlen = min(w1.size(), w2.size());
+
+            for (int j = 0; j < minlen; j++) {
+                if (w1[j] != w2[j]) {
+                    if (!graph[w1[j]].count(w2[j])) {
+                        graph[w1[j]].insert(w2[j]);
+                        indegree[w2[j]]++;
+                    }
+                    break;
+                }
+            }
+        }
+
+        queue<char> q;
+        // insert initial into queue
+        for (auto &p : graph) {
+            if (indegree[p.first] == 0)
+                q.push(p.first);
+        }
+
+        // BFS
+        string res = "";
+        while (!q.empty()) {
+            char curr = q.front();
+            q.pop();
+            res += curr;
+            for (char nei : graph[curr]) {
+                indegree[nei]--;
+                if (indegree[nei] == 0)
+                    q.push(nei);
+            }
+        }
+
+        // if visited != no of unique chars
+        // cycle exists
+        if (res.size() != graph.size()) 
+            return "";
         return res;
     }
 };
