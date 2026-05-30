@@ -132,7 +132,7 @@ public:
 
         // if visited != no of unique chars
         // cycle exists
-        // In a cycle, every node has indegree ≥ 1
+        // In a component with cycle, every node has indegree ≥ 1
         if (res.size() != graph.size()) 
             return "";
         return res;
