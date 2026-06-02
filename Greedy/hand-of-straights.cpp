@@ -21,7 +21,7 @@ public:
             
             for (int i = start; i < start + groupSize; i++) {
                 // if consec not available
-                if (freq.find(i) == freq.end()) 
+                if (freq.find(i) == freq.end()) // if (freq[i] == 0) 
                     return false;
                 freq[i]--;
 
