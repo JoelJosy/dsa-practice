@@ -41,6 +41,8 @@ public:
 
 // Union Find
 // for every successful union, number of diff components decreases
+// T: O(V+E α(V)) or O(V+E)
+// S: O(V)
 
 class Solution {
 public:
