@@ -1,5 +1,5 @@
 // T: O(n) n -> length of string
-// S: O(m) m -> no of unique chars
+// S: O(1) at most 26 chars in set
 
 class Solution {
 public:
