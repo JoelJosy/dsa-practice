@@ -1,9 +1,48 @@
 // Optimal using bitmasking
 // T: O(n!) 
-// S: O(n^2)
+// S: O(n)
 // Row 0:   . Q . .      diag bits:     0100
 // Row 1:   . . ? .      shifts right → 0010  (that position is now attacked)
+class Solution {
+public:
+    vector<string> board;
+    vector<vector<string>> res;
 
+    void backtrack(int n, int row, int cols, int diag, int antiDiag) {
+        if (row == n) {
+            res.push_back(board);
+            return;
+        }
+
+        int free = ((1 << n) - 1) & ~(cols | diag | antiDiag);
+
+        for (int col = 0; col < n; col++) {
+            if (!(free & (1 << col))) continue;
+
+            int bit = (1 << col);
+
+            board[row][col] = 'Q';
+
+            backtrack(
+                n,
+                row + 1,
+                cols | bit,
+                (diag | bit) << 1,
+                (antiDiag | bit) >> 1
+            );
+
+            board[row][col] = '.';
+        }
+    }
+
+    vector<vector<string>> solveNQueens(int n) {
+        board.assign(n, string(n, '.'));
+        res.clear();
+
+        backtrack(n, 0, 0, 0, 0);
+        return res;
+    }
+};
 
 // Better using Sets
 // T: O(n!) 
