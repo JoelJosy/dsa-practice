@@ -38,24 +38,30 @@ public:
 class Solution {
 public:
     int numDistinct(string s, string t) {
-        int m = s.size(), n = t.size();
+        int m = s.size();
+        int n = t.size();
         vector<uint> dp(n + 1, 0);
-        vector<uint> nextDp(n + 1, 0);
-        dp[n] = nextDp[n] = 1;
+        vector<uint> next(n + 1, 0);
+        
+        // empty t
+        next[n] = 1; 
 
         for (int i = m - 1; i >= 0; i--) {
+            dp[n] = 1;
             for (int j = n - 1; j >= 0; j--) {
-                nextDp[j] = dp[j];
                 if (s[i] == t[j]) {
-                    nextDp[j] += dp[j + 1];
+                    dp[j] = next[j] + next[j+1];
+                } else {
+                    dp[j] = next[j];
                 }
             }
-            dp = nextDp;
+            next = dp;
         }
 
-        return dp[0];
+        return next[0];
     }
 };
+
 
 // Tabulation
 class Solution {
