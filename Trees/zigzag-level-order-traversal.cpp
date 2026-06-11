@@ -37,6 +37,7 @@ public:
                 if (node->right) q.push(node->right);
             }
             vector<int> level(leveldq.begin(), leveldq.end());
+            // or directly do res.emplace_back(leveldq.begin(), leveldq.end());
             res.push_back(level);
             dirn = !dirn;
         }
