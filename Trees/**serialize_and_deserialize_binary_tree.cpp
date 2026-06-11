@@ -1,5 +1,67 @@
 // 297. Serialize and Deserialize Binary Tree
 // https://leetcode.com/problems/serialize-and-deserialize-binary-tree/
+// T: O(N)
+// S: O(N)
+// Preorder serialization
+class Codec {
+public:
+    void dfsSer(TreeNode* root, string& s) {
+        if (!root) {
+            s += "#,";
+            return;
+        }
+        int val = root->val;
+        s += to_string(val) + ",";
+        dfsSer(root->left, s);
+        dfsSer(root->right, s);
+    }
+    // Encodes a tree to a single string.
+    string serialize(TreeNode* root) {
+        string s;
+        dfsSer(root, s);
+        return s;
+    }
+
+    TreeNode* dfsDeser(queue<string>& q) {
+        string front = q.front();
+        q.pop();
+
+        if (front == "#") return nullptr;
+
+        int val = stoi(front);
+        TreeNode* node = new TreeNode(val);
+        node->left = dfsDeser(q);
+        node->right = dfsDeser(q);
+        return node;
+    }
+    
+    // Decodes your encoded data to tree.
+    TreeNode* deserialize(string data) {
+        queue<string> q;
+
+        string temp = "";
+        for (char c: data) {
+            if (c != ',') {
+                temp += c;
+            } else {
+                q.push(temp);
+                temp = "";
+            }
+        }
+
+        return dfsDeser(q);
+    }
+};
+
+// Your Codec object will be instantiated and called as such:
+// Codec ser, deser;
+// TreeNode* ans = deser.deserialize(ser.serialize(root));
+
+
+
+
+
+
 
 /**
  * Definition for a binary tree node.
