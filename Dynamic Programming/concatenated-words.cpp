@@ -16,7 +16,7 @@ public:
             string_view left = w.substr(0, i); // O(1)
             string_view right = w.substr(i);
 
-            if (!dict.count(left)) continue; // O(L) — hashing takes time proportional to its length
+            if (!dict.count(left)) continue; 
 
             if (dict.count(right) || canform(right))
                 return memo[w] = true;
