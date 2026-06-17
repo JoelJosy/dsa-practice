@@ -1,3 +1,47 @@
+// Optimal using DP
+class Solution {
+public:
+    unordered_set<string_view> dict;
+    unordered_map<string_view, bool> memo;
+
+    bool canform(string_view w) {
+        int n = w.size();
+        vector<bool> dp(n + 1, false);
+        dp[0] = true;
+
+        for (int i = 1; i <= n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (!dp[j]) continue;
+                if (dict.count(w.substr(j, i - j))) {
+                    dp[i] = true;
+                    break;
+                }
+            }
+        }
+        return dp[n];
+    }
+
+    vector<string> findAllConcatenatedWordsInADict(vector<string>& words) {
+        vector<string> res;
+        sort(words.begin(), words.end(),
+             [](const string& a, const string& b) {
+                 return a.size() < b.size();
+             });
+
+        for (auto& w : words) {
+            if (w.empty()) continue;
+            dict.erase(w);
+
+            if (canform(w))
+                res.push_back(w);
+
+            dict.insert(w);
+        }
+
+        return res;
+    }
+};
+
 // Optimal that avoids substr
 // T: O(N * L^2)
 // S: O(N*L)
