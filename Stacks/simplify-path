@@ -1,0 +1,43 @@
+// T: O(n)
+// S: O(n)
+class Solution {
+public:
+    string simplifyPath(string path) {
+        vector<string> stk;
+        string curr;
+        for (int i = 0; i < path.size(); i++) {
+            if (path[i] == '/') {
+                // process only non empty partitions
+                if (!curr.empty()) {
+                    if (curr == "..") {
+                        if (!stk.empty()) stk.pop_back();
+                    } else if (curr != ".") {
+                        stk.push_back(curr);
+                    }
+                    curr.clear();
+                }
+            } else {
+                curr += path[i];
+            }
+        }
+
+        // handle last token
+        if (!curr.empty()) {
+            if (curr == "..") {
+                if (!stk.empty()) stk.pop_back();
+            }
+            else if (curr != ".") {
+                stk.push_back(curr);
+            }
+        }
+
+        string res = "/";
+        for (string &s : stk) {
+            res += s + "/";
+        }
+        if (res.size() > 1) res.pop_back();
+        return res;
+    }
+};
+
+// split by /, ignore empty strings
