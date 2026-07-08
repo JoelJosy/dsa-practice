@@ -1,5 +1,5 @@
-// T:
-// S: 
+// T: O(n^2 * 2^n)
+// S: O(n * 2^n)
 class Solution {
 public:
     unordered_set<string> dict;
