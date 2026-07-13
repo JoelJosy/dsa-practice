@@ -13,6 +13,8 @@ public:
 
         int maxcoins = 0;
         // pick last balloon to burst
+        // k is the last balloon burst in (left, right),
+        // so left and right are its remaining neighbors.
         for (int k = left + 1; k < right; k++) {
             int coins = dfs(left, k, nums) + 
                         dfs(k, right, nums) + 
