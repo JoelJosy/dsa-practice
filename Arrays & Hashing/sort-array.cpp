@@ -2,8 +2,38 @@ class Solution {
 public:
     vector<int> sortArray(vector<int>& nums) {
         int n = nums.size();
-        mergesort(nums, 0, n-1);
+        countsort(nums);
         return nums;
+    }
+
+    // Count sort
+    // O(n + k), k is max element
+    void countsort(vector<int>& arr) {
+        int n = arr.size();
+
+        // Find maximum and minimum element
+        int maxVal = arr[0];
+        int minVal = arr[0];
+        for (int x : arr) {
+            maxVal = max(maxVal, x);
+            minVal = min(minVal, x);
+        }
+
+        int range = maxVal - minVal + 1;
+        vector<int> count(range, 0);
+        for (int x : arr)
+            count[x - minVal]++;
+        
+        for (int i = 1; i < range; i++)
+            count[i] += count[i - 1];
+        
+        vector<int> output(n);
+        for (int i = n - 1; i >= 0; i--) {
+            int index = arr[i] - minVal;
+            output[count[index] - 1] = arr[i];
+            count[index]--;
+        }
+        arr = output;
     }
 
     // Merge Sort
